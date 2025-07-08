@@ -20,11 +20,11 @@
 
 SYSCONFIG_TOOL         ?= /home/username/ti/ccs1281/ccs/utils/sysconfig_1.22.0/sysconfig_cli.sh
 
-CMAKE                  ?= /home/username/cmake-3.21.3/bin/cmake
+CMAKE                  ?= /usr/local/bin/cmake
 PYTHON                 ?= python3
 
-TICLANG_ARMCOMPILER    ?= /home/username/ti/ccs1281/ccs/tools/compiler/ti-cgt-armllvm_3.2.2.LTS-0
-GCC_ARMCOMPILER        ?= /home/username/arm-none-eabi-gcc/12.3.Rel1-0
+TICLANG_ARMCOMPILER    ?= /opt/ti-cgt-armllvm_3.2.2.LTS/
+GCC_ARMCOMPILER        ?= /opt/gcc-arm-none-eabi/
 IAR_ARMCOMPILER        ?= /home/username/iar9.60.3
 
 ifeq ("$(SHELL)","sh.exe")
