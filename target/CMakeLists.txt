@@ -1,4 +1,5 @@
 find_package(DeviceCC23X0R5 REQUIRED)
+#find_package(FreeRTOS REQUIRED)
 
 add_executable(target)
 
@@ -9,17 +10,19 @@ target_include_directories(target PUBLIC
 target_link_libraries(target PRIVATE
     Device::cc23x0r5
     Drivers::drivers_cc23x0r5
-    NoRtos::nortos_cc23x0r5
+    FreeRTOS::freertos
 )
 
 target_sources(target PRIVATE
     Atomic.cpp
     Main.cpp
     Ccfg.cpp
+    ti_freertos_config.c
+    ti_freertos_portable_config.c
 )
 
 target_link_options(target PRIVATE
-    "${CMAKE_CURRENT_LIST_DIR}/cc23x0r5.cmd"
+    "${CMAKE_CURRENT_LIST_DIR}/lpf3_app_freertos.cmd"
 )
 
 set(CRC_TOOL "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/tools/common/crc_tool/crc_tool")
