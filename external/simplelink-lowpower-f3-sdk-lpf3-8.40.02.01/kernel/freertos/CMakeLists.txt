@@ -42,6 +42,7 @@ target_include_directories(
     INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/source/third_party/freertos/include>"
     INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/kernel/freertos>"
     INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/source/ti/posix/ticlang>"
+    INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/source/third_party/freertos/portable/GCC/ARM_CM0>"
               # Note: we cannot set the INSTALL_INTERFACE include here, because it depends on
               # FREERTOS_INSTALL_DIR It is configured in ConfigFreeRTOS.cmake.in, after the CMake
               # package magic
