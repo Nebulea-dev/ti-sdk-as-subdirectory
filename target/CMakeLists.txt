@@ -19,8 +19,6 @@ target_include_directories(target PUBLIC
 
 target_link_libraries(target PRIVATE
     Device::cc23x0r5
-    Drivers::drivers_cc23x0r5
-    Drivers::display_cc23x0r5
     FreeRTOS::freertos
     Bluetooth::ble
 )
@@ -80,6 +78,7 @@ foreach(DEFINITION ${DEFINE_SYSCFG})
     add_compile_definitions(${DEFINITION})
 endforeach()
 
+
 # Add all defines from build_components.opt
 file(READ "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/ble5stack_flash/config/build_components.opt" FILE_CONTENTS)
 string(REPLACE "-D" "" FILE_CONTENTS ${FILE_CONTENTS})
@@ -88,6 +87,7 @@ string(REPLACE "\n" ";" DEFINE_SYSCFG ${FILE_CONTENTS})
 foreach(DEFINITION ${DEFINE_SYSCFG})
     add_compile_definitions(${DEFINITION})
 endforeach()
+
 
 # Add all defines from factory_config.opt
 file(READ "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/ble5stack_flash/config/factory_config.opt" FILE_CONTENTS)
@@ -98,41 +98,18 @@ foreach(DEFINITION ${DEFINE_SYSCFG})
     add_compile_definitions(${DEFINITION})
 endforeach()
 
-# Idealy, these would be built by reading the content of the .genmap file.
-target_link_libraries(target PRIVATE
-    #/* libraries required for /third_party/spiffs */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/third_party/spiffs/lib/ticlang/m0p/spiffs.a"
-
-    #/* libraries required for /ti/ble5stack */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/ble5stack_flash/lib_projects/CC2340R5/OneLib/lib/ticlang/m0p/OneLib.a"
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/ble5stack_flash/lib_projects/CC2340R5/StackWrapper/lib/ticlang/m0p/StackWrapper.a"
-
-    #/* libraries required for /ti/display */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/display/lib/ticlang/m0p/display_cc23x0r5.a"
-
-    #/* libraries required for /ti/drivers/rcl */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/drivers/rcl/lib/ticlang/m0p/rcl_cc23x0r5.a"
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/devices/cc23x0r5/rf_patches/lib/ticlang/m0p/lrf_cc23x0r5.a"
-
-    #/* libraries required for /ti/drivers */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/drivers/lib/ticlang/m0p/drivers_cc23x0r5.a"
-
-    #/* libraries required for /third_party/ecc */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/third_party/ecc/lib/ticlang/m0p/ecc.a"
-
-    #/* libraries required for /ti/devices */
-    "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/ti/devices/cc23x0r5/driverlib/lib/ticlang/driverlib.a"
-)
 
 # Add all defines from ti_utils_build_linker.cmd.genlibs
-#file(READ "${CMAKE_CURRENT_LIST_DIR}/syscfg/ti_utils_build_linker.cmd.genlibs" FILE_CONTENTS)
-#string(REPLACE "\n" ";" LIBS_SYSCFG ${FILE_CONTENTS})
+file(READ "${CMAKE_CURRENT_LIST_DIR}/syscfg/ti_utils_build_linker.cmd.genlibs" FILE_CONTENTS)
+string(REPLACE "\n" ";" LIBS_SYSCFG ${FILE_CONTENTS})
 
-#foreach(LIB ${LIBS_SYSCFG})
-#    message("${LIB}")
-#    target_link_libraries(target PRIVATE "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/${LIB_PATH}")
-#    add_compile_definitions(${LIB})
-#endforeach()
+foreach(LIB ${LIBS_SYSCFG})
+    if(${LIB} MATCHES "-l")
+        string(REPLACE "-l" "" LIB_PATH ${LIB})
+        string(REPLACE "\"" "" LIB_PATH_QUOTELESS ${LIB_PATH})
+        target_link_libraries(target PRIVATE "${CMAKE_SOURCE_DIR}/external/simplelink-lowpower-f3-sdk-lpf3-8.40.02.01/source/${LIB_PATH_QUOTELESS}")
+    endif()
+endforeach()
 
 
 target_link_options(target PRIVATE 
