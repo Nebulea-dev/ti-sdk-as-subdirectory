@@ -52,22 +52,22 @@
 
 /* General options */
 #define configCPU_CLOCK_HZ ((unsigned long)(48000000))
-#define configTOTAL_HEAP_SIZE ((size_t)(0x2000))
+#define configTOTAL_HEAP_SIZE ((size_t)(0xa000))
 #define configAPPLICATION_ALLOCATED_HEAP 0
 #define configCHECK_FOR_STACK_OVERFLOW 2
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
 #define configEXPECTED_IDLE_TIME_BEFORE_SLEEP 2
 
 /* Stack sizes, all in words */
-#define configMINIMAL_STACK_SIZE ((unsigned short)(128))
-#define configIDLE_TASK_STACK_DEPTH ((unsigned short)(128))
+#define configMINIMAL_STACK_SIZE ((unsigned short)(76))
+#define configIDLE_TASK_STACK_DEPTH ((unsigned short)(76))
 #define configPOSIX_STACK_SIZE ((unsigned short)(256))
 
 /* Software timer definitions. */
 #define configUSE_TIMERS 1
 #define configTIMER_TASK_PRIORITY (5)
 #define configTIMER_QUEUE_LENGTH (20)
-#define configTIMER_TASK_STACK_DEPTH ((unsigned short)(128))
+#define configTIMER_TASK_STACK_DEPTH ((unsigned short)(100))
 
 
 /*
