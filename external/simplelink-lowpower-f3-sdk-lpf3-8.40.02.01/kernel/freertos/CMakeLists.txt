@@ -39,6 +39,7 @@ ti_init_package(NAMESPACE FreeRTOS)
 ti_add_library(freertos INTERFACE ARCH all)
 target_include_directories(
     freertos
+    INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/source/ti/drivers/rcl>"
     INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/source/third_party/freertos/include>"
     INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/kernel/freertos>"
     INTERFACE "$<BUILD_INTERFACE:${FREERTOS_INSTALL_DIR}/source/ti/posix/ticlang>"
