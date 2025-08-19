@@ -244,9 +244,9 @@ function(ti_add_library library_name)
         endif()
     else()
         if(CONFIG_LIB_INTERFACE)
-            add_library(${library_name} INTERFACE)
+            add_library(${library_name} EXCLUDE_FROM_ALL INTERFACE)
         else()
-            add_library(${library_name} ${CONFIG_LIB_SOURCES})
+            add_library(${library_name} EXCLUDE_FROM_ALL ${CONFIG_LIB_SOURCES})
         endif()
     endif()
 
@@ -382,7 +382,7 @@ function(ti_create_targets)
 
     # Install the actual targets into DriversM0Targets.cmake
     message(DEBUG "ti_create_targets: exported ${CREATE_TARGETS_TARGETS} into ${target_set_name}")
-    install(TARGETS ${CREATE_TARGETS_TARGETS} EXPORT ${target_set_name} DESTINATION ${FINAL_OUTPUT_FOLDER})
+    install(TARGETS ${CREATE_TARGETS_TARGETS} EXPORT ${target_set_name} DESTINATION ${FINAL_OUTPUT_FOLDER} EXCLUDE_FROM_ALL)
 
     if(${TI_PACKAGE_TYPE} STREQUAL "COMPONENT")
         set(cmake_folder components)
@@ -397,6 +397,7 @@ function(ti_create_targets)
         # Install relocatable package file into source/cmake/components
         install(EXPORT ${target_set_name} FILE ${target_set_name}.cmake NAMESPACE ${TI_NAMESPACE}::
                 DESTINATION source/cmake/${cmake_folder}/${TI_TOOLCHAIN_NAME}
+                EXCLUDE_FROM_ALL
         )
 
         # Keep track of the resulting list of exported packages
@@ -522,6 +523,7 @@ function(ti_export_package)
         FILES
             "${CMAKE_CURRENT_BINARY_DIR}/source/cmake/${cmake_folder}/${TI_TOOLCHAIN_NAME}/${TI_PACKAGE_NAME}Config.cmake"
         DESTINATION "${CMAKE_INSTALL_PREFIX}/source/cmake/${cmake_folder}/${TI_TOOLCHAIN_NAME}"
+        EXCLUDE_FROM_ALL
     )
 endfunction()
 

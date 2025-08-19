@@ -138,9 +138,12 @@ foreach(LIB ${LIBS_SYSCFG})
     if(${LIB} MATCHES "-l")
         string(REPLACE "-l" "" LIB_PATH ${LIB})
         string(REPLACE "\"" "" LIB_PATH_QUOTELESS ${LIB_PATH})
-        target_link_libraries(target PRIVATE "${SDK_DIR}/source/${LIB_PATH_QUOTELESS}")
+        #target_link_libraries(target PRIVATE "${SDK_DIR}/source/${LIB_PATH_QUOTELESS}")
     endif()
 endforeach()
+
+target_link_libraries(target PRIVATE display_cc23x0r5)
+target_link_libraries(target PRIVATE device_cc23x0r5)
 
 target_link_options(target PRIVATE 
     "${CMAKE_CURRENT_LIST_DIR}/lpf3_app_freertos.cmd"
