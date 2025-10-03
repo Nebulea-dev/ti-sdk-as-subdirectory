@@ -67,4 +67,8 @@ target_include_directories(
               # package magic
 )
 
+add_dependencies(ble drivers_cc23x0r5)
+
+# Hardcode them since they are not built anyway
+
 ti_export_package()

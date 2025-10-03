@@ -17,40 +17,16 @@ target_include_directories(target PUBLIC
     "${SDK_DIR}/source"
 )
 
-# User can either link against the custom Bluetooth::ble target, or add these 
-# lines to include the necessary files
-target_include_directories(
-    target PRIVATE
-    "${SDK_DIR}/source"
-    "${SDK_DIR}/source/ti"
-    "${SDK_DIR}/source/ti/ble5stack_flash"
-    "${SDK_DIR}/source/ti/ble5stack_flash/controller/cc26xx/inc"
-    "${SDK_DIR}/source/ti/ble5stack_flash/inc"
-    "${SDK_DIR}/source/ti/ble5stack_flash/rom"
-    "${SDK_DIR}/source/ti/ble5stack_flash/common/cc26xx"
-    "${SDK_DIR}/source/ti/ble5stack_flash/icall/inc"
-    "${SDK_DIR}/source/ti/ble5stack_flash/hal/src/target/_common"
-    "${SDK_DIR}/source/ti/ble5stack_flash/common/cc26xx/npi/stack"
-    "${SDK_DIR}/source/ti/ble5stack_flash/hal/src/inc"
-    "${SDK_DIR}/source/ti/ble5stack_flash/heapmgr"
-    "${SDK_DIR}/source/ti/ble5stack_flash/profiles/dev_info"
-    "${SDK_DIR}/source/ti/ble5stack_flash/profiles/simple_profile"
-    "${SDK_DIR}/source/ti/ble5stack_flash/icall/src/inc"
-    "${SDK_DIR}/source/ti/ble5stack_flash/npi/src"
-    "${SDK_DIR}/source/ti/ble5stack_flash/osal/src/inc"
-    "${SDK_DIR}/source/ti/ble5stack_flash/services/src/saddr"
-    "${SDK_DIR}/source/ti/ble5stack_flash/services/src/sdata"
-    "${SDK_DIR}/source/ti/common/nv"
-    "${SDK_DIR}/source/ti/common/cc26xx"
-    "${SDK_DIR}/source/ti/ble5stack_flash/icall/src"
-    "${SDK_DIR}/source/ti/bleapp/profiles/health_thermometer"
-    "${SDK_DIR}/source/ti/bleapp/services/health_thermometer"
-)
 
 target_link_libraries(target PRIVATE
-    Device::cc23x0r5
+    ${SDK_DIR}/source/ti/ble5stack_flash/lib_projects/CC2340R5/OneLib/lib/ticlang/m0p/OneLib.a
+    ${SDK_DIR}/source/ti/ble5stack_flash/lib_projects/CC2340R5/StackWrapper/lib/ticlang/m0p/StackWrapper.a
+    display_cc23x0r5
     FreeRTOS::freertos
-    #Bluetooth::ble
+    drivers_cc23x0r5
+    Bluetooth::ble
+    RCL::cc23x0r5
+    ${SDK_DIR}/source/third_party/ecc/lib/ticlang/m0p/ecc.a
 )
 
 target_sources(target PRIVATE
@@ -141,9 +117,6 @@ foreach(LIB ${LIBS_SYSCFG})
         #target_link_libraries(target PRIVATE "${SDK_DIR}/source/${LIB_PATH_QUOTELESS}")
     endif()
 endforeach()
-
-target_link_libraries(target PRIVATE display_cc23x0r5)
-target_link_libraries(target PRIVATE device_cc23x0r5)
 
 target_link_options(target PRIVATE 
     "${CMAKE_CURRENT_LIST_DIR}/lpf3_app_freertos.cmd"
